@@ -4,6 +4,7 @@ import { PortableText } from '@portabletext/react'
 import { client, urlFor } from '../sanityClient'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
+import { useContactModal } from '../context/ContactModalContext'
 import './projects.css'
 
 const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
@@ -11,6 +12,7 @@ const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
 }`
 
 export default function ProjectDetail() {
+  const { open: openModal } = useContactModal()
   const { slug } = useParams()
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -67,7 +69,7 @@ export default function ProjectDetail() {
 
         <div className="project-footer">
           <Link to="/projects" className="btn-primary">← All Projects</Link>
-          <a href="/#contact" className="btn-ghost">Start a Project</a>
+          <button className="btn-ghost" onClick={openModal}>Let's Connect</button>
         </div>
       </article>
       <Footer />

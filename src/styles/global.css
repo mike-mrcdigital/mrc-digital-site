@@ -4,8 +4,8 @@
   --ink: #111010;
   --paper: #F5F2ED;
   --warm: #E8E2D9;
-  --accent: #C8522A;
-  --accent-light: #F0A882;
+  --accent: #1a8a5c;
+  --accent-light: #22c072;
   --mid: #7A7570;
   --light: #B8B2AC;
 }
@@ -53,6 +53,53 @@ nav {
   transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--ink); }
+
+/* NAV SUBMENU */
+.nav-item--has-sub { position: relative; }
+.nav-chevron { font-size: 0.6rem; opacity: 0.6; margin-left: 2px; }
+.nav-submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 12px;
+  min-width: 240px;
+  list-style: none;
+  z-index: 200;
+}
+.nav-submenu-inner {
+  background: white;
+  border: 1px solid var(--warm);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  padding: 0.4rem 0;
+  position: relative;
+}
+.nav-submenu-inner::before {
+  content: '';
+  position: absolute;
+  top: -5px; left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px; height: 10px;
+  background: white;
+  border-left: 1px solid var(--warm);
+  border-top: 1px solid var(--warm);
+}
+.nav-submenu--open { display: block; }
+.nav-submenu li a {
+  display: block;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.82rem;
+  color: var(--ink);
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-submenu li a:hover { background: var(--paper); color: var(--accent); }
+
 .nav-cta {
   background: var(--ink) !important;
   color: var(--paper) !important;
@@ -61,6 +108,7 @@ nav {
   transition: background 0.2s !important;
 }
 .nav-cta:hover { background: var(--accent) !important; color: var(--paper) !important; }
+button.nav-cta { border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; letter-spacing: 0.04em; text-transform: uppercase; }
 
 /* BUTTONS */
 .btn-primary {
@@ -194,6 +242,23 @@ footer p { font-size: 0.78rem; color: #3A3835; }
     padding: 1rem 0;
     font-size: 1rem;
   }
+  .nav-submenu {
+    position: static;
+    transform: none;
+    padding-top: 0;
+    min-width: unset;
+    display: none;
+  }
+  .nav-submenu-inner {
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    padding: 0 0 0.5rem 1rem;
+  }
+  .nav-submenu-inner::before { display: none; }
+  .nav-submenu--open { display: block; }
+  .nav-submenu li { border-bottom: none; }
+  .nav-submenu li a { padding: 0.5rem 0; font-size: 0.9rem; color: var(--mid); }
   .nav-cta {
     display: inline-block !important;
     margin-top: 1rem;

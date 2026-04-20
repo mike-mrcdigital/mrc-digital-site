@@ -1,21 +1,12 @@
 import { Link } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
+import { useContactModal } from './context/ContactModalContext'
 import './styles/home.css'
 import './pages/projects.css'
 
 export default function App() {
-  function handleSubmit(e) {
-    e.preventDefault()
-    const btn = e.target.querySelector('.form-submit')
-    btn.textContent = 'Message Sent ✓'
-    btn.style.background = '#2d6a4f'
-    setTimeout(() => {
-      btn.textContent = 'Send Message →'
-      btn.style.background = ''
-      e.target.reset()
-    }, 3000)
-  }
+  const { open: openModal } = useContactModal()
 
   return (
     <>
@@ -30,11 +21,33 @@ export default function App() {
           </h1>
           <p className="hero-sub">Full stack applications, automation workflows, and API integrations tailored to your business — designed with precision, delivered on time.</p>
           <div className="hero-actions">
-            <a href="#contact" className="btn-primary">Start a Project</a>
+            <button className="btn-primary" onClick={openModal}>Let's Connect</button>
             <a href="#portfolio" className="btn-ghost">See the Work</a>
           </div>
         </div>
         <div className="hero-visual">
+          <div className="hero-chat">
+            <div className="hero-chat-hdr">
+              <div className="hero-chat-av">AI</div>
+              <div>
+                <div className="hero-chat-name">MRC Assistant</div>
+                <div className="hero-chat-status">Online now</div>
+              </div>
+            </div>
+            <div className="hero-chat-msgs">
+              <div className="hero-chat-msg hero-chat-msg--bot">Hi! Need help booking an appointment or have a question?</div>
+              <div className="hero-chat-msg hero-chat-msg--user">Yes — do you have anything this Friday?</div>
+              <div className="hero-chat-msg hero-chat-msg--bot">Let me check availability...<br /><br />Friday at 10 AM or 2 PM are open. Which works for you?</div>
+              <div className="hero-chat-msg hero-chat-msg--user">10 AM please!</div>
+              <div className="hero-chat-msg hero-chat-msg--bot hero-chat-msg--booked">✓ Booked — Friday at 10:00 AM. Confirmation sent!</div>
+            </div>
+            <div className="hero-chat-input">
+              <div className="hero-chat-input-fake">Type a message...</div>
+              <div className="hero-chat-send">↑</div>
+            </div>
+          </div>
+          <p className="hero-chat-caption">Our AI Customer Engagement Chatbot</p>
+          <Link to="/services/customer-engagement-suite" className="btn-primary hero-chat-cta">Get Yours Today</Link>
         </div>
       </section>
 
@@ -46,19 +59,20 @@ export default function App() {
         <div className="services-grid">
           {[
             {
-              num: '01', icon: '⚡', name: 'Intelligent Automation',
+              num: '01', icon: '🚀', name: 'AI Customer Engagement Suite',
+              desc: 'Stop losing leads to slow follow-up. You get a battle-tested GoHighLevel account pre-loaded with lead nurturing automations and AI-powered chatbots — ready to engage, qualify, and convert from day one. Plug it into your existing workflow and start closing more without adding headcount.',
+              tags: ['GoHighLevel Setup', 'Lead Nurturing', 'AI Chatbots', 'CRM Automation'],
+              link: '/services/customer-engagement-suite'
+            },
+            {
+              num: '02', icon: '⚡', name: 'Intelligent Automation',
               desc: 'Manual work is a tax on your business. I build custom automation systems that eliminate repetitive tasks, reduce overhead, and free your team to focus on what actually moves the needle — supercharged with an AI reasoning layer that makes your workflows smarter over time.',
               tags: ['Workflow Automation', 'AI-Powered Logic', 'Scheduled Jobs', 'Process Optimization']
             },
             {
-              num: '02', icon: '🏗', name: 'Full Stack Applications',
+              num: '03', icon: '🏗', name: 'Full Stack Applications',
               desc: 'Have an idea but no way to build it? I take your vision from concept to a fully functioning product — front to back. Clean code, scalable architecture, and a launch you can be proud of. Built by one senior engineer who owns it start to finish.',
               tags: ['React / Next.js', 'Node.js', 'PostgreSQL', 'Cloud Deployment']
-            },
-            {
-              num: '03', icon: '🚀', name: 'Customer Engagement Suite',
-              desc: 'Stop losing leads to slow follow-up. You get a battle-tested GoHighLevel account pre-loaded with lead nurturing automations and AI-powered chatbots — ready to engage, qualify, and convert from day one. Plug it into your existing workflow and start closing more without adding headcount.',
-              tags: ['GoHighLevel Setup', 'Lead Nurturing', 'AI Chatbots', 'CRM Automation']
             }
           ].map(s => (
             <div className="service-item" key={s.num}>
@@ -69,6 +83,11 @@ export default function App() {
               <div className="service-tags">
                 {s.tags.map(t => <span className="service-tag" key={t}>{t}</span>)}
               </div>
+              {s.link && (
+                <Link to={s.link} style={{ display: 'inline-block', marginTop: '1.25rem', fontSize: '0.8rem', color: 'var(--accent-light)', textDecoration: 'none', letterSpacing: '0.04em' }}>
+                  Learn more →
+                </Link>
+              )}
             </div>
           ))}
         </div>
@@ -156,50 +175,12 @@ export default function App() {
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="contact-section">
-        <p className="section-label">Get In Touch</p>
-        <h2 className="section-title">Let's build something together</h2>
-        <div className="contact-grid">
-          <div className="contact-info">
-            <p>Have a project in mind? I'd love to hear about it. Fill out the form and I'll get back to you within one business day.</p>
-            <div className="contact-detail"><span>📧</span><span><strong>michael@mrcdigital.com</strong></span></div>
-            <div className="contact-detail"><span>📍</span><span><strong>Available Remotely, Worldwide</strong></span></div>
-            <div className="contact-detail" style={{ marginTop: '2.5rem' }}>
-              <span style={{ color: 'var(--accent-light)', fontSize: '0.85rem' }}>Currently accepting new projects for Q2 2026</span>
-            </div>
-          </div>
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">First Name</label>
-                <input type="text" className="form-input" placeholder="Jane" />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Last Name</label>
-                <input type="text" className="form-input" placeholder="Smith" />
-              </div>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Email</label>
-              <input type="email" className="form-input" placeholder="jane@company.com" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Service</label>
-              <select className="form-select">
-                <option value="">Select a service...</option>
-                <option>Intelligent Automation</option>
-                <option>Full Stack Application</option>
-                <option>Customer Engagement Suite</option>
-                <option>Not Sure Yet</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Tell Me About Your Project</label>
-              <textarea className="form-textarea" placeholder="What are you trying to build or solve?" />
-            </div>
-            <button type="submit" className="form-submit">Send Message →</button>
-          </form>
+      {/* CONTACT CTA */}
+      <section className="contact-cta-section">
+        <div className="contact-cta-inner">
+          <h2 className="section-title" style={{ color: 'var(--paper)' }}>Let's build something together</h2>
+          <p style={{ color: 'var(--light)', marginTop: '0.75rem', marginBottom: '2rem' }}>Have a project in mind? I'll get back to you within one business day.</p>
+          <button className="btn-primary" onClick={openModal}>Let's Connect</button>
         </div>
       </section>
 

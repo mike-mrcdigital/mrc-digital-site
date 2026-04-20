@@ -4,6 +4,7 @@ import { PortableText } from '@portabletext/react'
 import { client, urlFor } from '../sanityClient'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
+import { useContactModal } from '../context/ContactModalContext'
 import './blog.css'
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0] {
@@ -12,6 +13,7 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0] {
 }`
 
 export default function BlogPost() {
+  const { open: openModal } = useContactModal()
   const { slug } = useParams()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -57,7 +59,7 @@ export default function BlogPost() {
 
         <div className="post-footer">
           <Link to="/blog" className="btn-primary">← Back to Blog</Link>
-          <a href="/#contact" className="btn-ghost">Start a Project</a>
+          <button className="btn-ghost" onClick={openModal}>Let's Connect</button>
         </div>
       </article>
       <Footer />

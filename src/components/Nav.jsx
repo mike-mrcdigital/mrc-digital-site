@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useContactModal } from '../context/ContactModalContext'
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
-  const close = () => setOpen(false)
+  const [servicesOpen, setServicesOpen] = useState(false)
+  const close = () => { setOpen(false); setServicesOpen(false) }
+  const { open: openModal } = useContactModal()
 
   return (
     <nav>
@@ -18,12 +21,35 @@ export default function Nav() {
       </button>
 
       <ul className={`nav-links${open ? ' nav-links--open' : ''}`}>
-        <li><a href="/#services" onClick={close}>Services</a></li>
+        <li
+          className="nav-item--has-sub"
+          onMouseEnter={() => { if (window.innerWidth > 900) setServicesOpen(true) }}
+          onMouseLeave={() => { if (window.innerWidth > 900) setServicesOpen(false) }}
+        >
+          <a
+            href="/#services"
+            onClick={e => {
+              if (open) { e.preventDefault(); setServicesOpen(o => !o) }
+              else { close() }
+            }}
+          >
+            Services <span className="nav-chevron">▾</span>
+          </a>
+          <ul className={`nav-submenu${servicesOpen ? ' nav-submenu--open' : ''}`}>
+            <div className="nav-submenu-inner">
+              <li>
+                <Link to="/services/customer-engagement-suite" onClick={close}>
+                  AI Customer Engagement Suite
+                </Link>
+              </li>
+            </div>
+          </ul>
+        </li>
         <li><a href="/#process" onClick={close}>Process</a></li>
         <li><a href="/#portfolio" onClick={close}>Work</a></li>
         <li><Link to="/blog" onClick={close}>Blog</Link></li>
         <li><a href="/#about" onClick={close}>About</a></li>
-        <li><a href="/#contact" className="nav-cta" onClick={close}>Start a Project</a></li>
+        <li><button className="nav-cta" onClick={() => { close(); openModal() }}>Let's Connect</button></li>
       </ul>
     </nav>
   )
