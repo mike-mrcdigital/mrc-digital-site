@@ -42,6 +42,11 @@ export default function Nav() {
                   AI Customer Engagement Suite
                 </Link>
               </li>
+              <li>
+                <Link to="/services/intelligent-automation" onClick={close}>
+                  Intelligent Automation
+                </Link>
+              </li>
             </div>
           </ul>
         </li>

@@ -5,6 +5,8 @@ import '../styles/contact-modal.css'
 export default function ContactModal() {
   const { isOpen, close } = useContactModal()
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   // Lock body scroll when open
   useEffect(() => {
@@ -19,10 +21,34 @@ export default function ContactModal() {
     return () => document.removeEventListener('keydown', handler)
   }, [close])
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    setSent(true)
-    setTimeout(() => { setSent(false); close(); e.target.reset() }, 3000)
+    setLoading(true)
+    setError(null)
+
+    const form = e.target
+    const body = {
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      email: form.email.value,
+      service: form.service.value,
+      message: form.message.value,
+    }
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (!res.ok) throw new Error('Send failed')
+      setSent(true)
+      setTimeout(() => { setSent(false); close(); form.reset() }, 3000)
+    } catch {
+      setError('Something went wrong. Please email me directly at michael@mrcdigital.io.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (!isOpen) return null
@@ -51,32 +77,35 @@ export default function ContactModal() {
               <div className="cmodal-row">
                 <div className="cmodal-group">
                   <label className="cmodal-label">First Name</label>
-                  <input type="text" className="cmodal-input" placeholder="Jane" required />
+                  <input name="firstName" type="text" className="cmodal-input" placeholder="Jane" required />
                 </div>
                 <div className="cmodal-group">
                   <label className="cmodal-label">Last Name</label>
-                  <input type="text" className="cmodal-input" placeholder="Smith" required />
+                  <input name="lastName" type="text" className="cmodal-input" placeholder="Smith" required />
                 </div>
               </div>
               <div className="cmodal-group">
                 <label className="cmodal-label">Email</label>
-                <input type="email" className="cmodal-input" placeholder="jane@company.com" required />
+                <input name="email" type="email" className="cmodal-input" placeholder="jane@company.com" required />
               </div>
               <div className="cmodal-group">
                 <label className="cmodal-label">Service</label>
-                <select className="cmodal-select">
+                <select name="service" className="cmodal-select">
                   <option value="">Select a service...</option>
                   <option>AI Customer Engagement Suite</option>
-                  <option>Intelligent Automation</option>
-                  <option>Full Stack Application</option>
+                  <option>Workflow Automation & AI Integration</option>
+                  <option>Custom Applications & Internal Tools</option>
                   <option>Not Sure Yet</option>
                 </select>
               </div>
               <div className="cmodal-group">
                 <label className="cmodal-label">Tell Me About Your Project</label>
-                <textarea className="cmodal-textarea" placeholder="What are you trying to build or solve?" />
+                <textarea name="message" className="cmodal-textarea" placeholder="What are you trying to build or solve?" />
               </div>
-              <button type="submit" className="cmodal-submit">Send Message →</button>
+              {error && <p style={{ color: '#c0392b', fontSize: '0.85rem' }}>{error}</p>}
+              <button type="submit" className="cmodal-submit" disabled={loading}>
+                {loading ? 'Sending...' : 'Send Message →'}
+              </button>
             </form>
           </>
         )}

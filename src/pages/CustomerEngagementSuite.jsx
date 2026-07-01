@@ -30,7 +30,7 @@ export default function CustomerEngagementSuite() {
         <div className="ces-hero-inner">
           <p className="ces-hero-eyebrow">AI Customer Engagement Suite</p>
           <h1 className="ces-hero-title">
-            Your next customer called.<br /><em>Nobody picked up.</em>
+            Scale Your Customer Engagement.<br /><em className="ces-hero-sub-em">Be there even when you're not.</em>
           </h1>
           <p className="ces-hero-sub">
             An AI agent that lives wherever your customers are — answering questions, booking appointments,
@@ -413,12 +413,10 @@ export default function CustomerEngagementSuite() {
         <p className="section-sub ces-reveal">Available with any plan. Add during setup or bolt on later — no long-term commitment.</p>
         <div className="ces-addons-grid">
           {[
-            { name: 'AI Voice Agent',             price: '$200/mo', desc: 'Answers inbound calls, handles FAQs, and books appointments by voice. A receptionist that never clocks out.' },
             { name: 'Review Automation',          price: '$100/mo', desc: 'After each appointment, customers get a text asking for a Google review. Happy customers go to Google — unhappy ones go to a private feedback form.' },
             { name: 'Reactivation Campaigns',     price: '$150/mo', desc: "Text and email sequences to re-engage customers who haven't booked in 60, 90, or 120+ days. Bring dormant revenue back to life." },
             { name: 'Intake Forms & Pre-Screening', price: '$75/mo', desc: "The AI collects client info, insurance details, or project specs before the appointment — so your staff doesn't have to." },
             { name: 'Payment & Deposit Collection', price: '$100/mo', desc: 'Collect deposits or full payments at time of booking. Integrated with Stripe so money hits your account before the customer shows up.' },
-            { name: 'Multilingual Chat',          price: '$75/mo',  desc: 'Your AI responds in Spanish, French, Mandarin, or any language your customers speak. Auto-detects and switches.' },
             { name: 'Knowledge Base Integration', price: '$100/mo', desc: 'Connect your help docs, Notion, or Zendesk. The AI pulls from your real source of truth so answers stay accurate.' },
             { name: 'Human Handoff & Ticketing', price: '$125/mo', desc: 'When a conversation needs a human, the AI escalates to your team via Slack, email, or your ticketing system — with full context attached.' },
           ].map(a => (

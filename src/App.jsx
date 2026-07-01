@@ -17,9 +17,9 @@ export default function App() {
         <div className="hero-text">
           <p className="hero-eyebrow">MRC Digital Consulting</p>
           <h1 className="hero-title">
-            Digital solutions<br />built to <em>perform</em>
+            Your business shouldn't run on<br />spreadsheets and <em>missed calls.</em>
           </h1>
-          <p className="hero-sub">Full stack applications, automation workflows, and API integrations tailored to your business — designed with precision, delivered on time.</p>
+          <p className="hero-sub">We identify where your business leaks time and money, then build the systems that fix it — from AI voice agents to live analytics dashboards, built to production standard.</p>
           <div className="hero-actions">
             <button className="btn-primary" onClick={openModal}>Let's Connect</button>
             <a href="#portfolio" className="btn-ghost">See the Work</a>
@@ -55,40 +55,47 @@ export default function App() {
       <section id="services" className="services-section">
         <p className="section-label">What I Do</p>
         <h2 className="section-title">Services</h2>
-        <p className="section-sub">I partner with businesses to design, build, and automate digital systems that scale.</p>
+        <p className="section-sub">Every engagement starts with one question: where is your business losing time and money? The answer tells us what to build.</p>
         <div className="services-grid">
           {[
             {
               num: '01', icon: '🚀', name: 'AI Customer Engagement Suite',
-              desc: 'Stop losing leads to slow follow-up. You get a battle-tested GoHighLevel account pre-loaded with lead nurturing automations and AI-powered chatbots — ready to engage, qualify, and convert from day one. Plug it into your existing workflow and start closing more without adding headcount.',
-              tags: ['GoHighLevel Setup', 'Lead Nurturing', 'AI Chatbots', 'CRM Automation'],
+              desc: 'Most businesses lose 20-30% of potential leads to slow follow-up and missed calls. We fix that. You get a done-for-you AI engagement system — voice agents that answer every call, chatbots that qualify and nurture leads, and automated follow-up sequences that work while you sleep. Plug it into your existing workflow and start recovering revenue you didn\'t know you were losing.',
+              tags: ['GoHighLevel Setup', 'Lead Nurturing', 'AI Chatbots', 'CRM Automation', 'Voice AI'],
               link: '/services/customer-engagement-suite'
             },
             {
-              num: '02', icon: '⚡', name: 'Intelligent Automation',
-              desc: 'Manual work is a tax on your business. I build custom automation systems that eliminate repetitive tasks, reduce overhead, and free your team to focus on what actually moves the needle — supercharged with an AI reasoning layer that makes your workflows smarter over time.',
-              tags: ['Workflow Automation', 'AI-Powered Logic', 'Scheduled Jobs', 'Process Optimization']
+              num: '02', icon: '⚡', name: 'Workflow Automation & AI Integration',
+              desc: 'If someone on your team is doing the same thing more than twice a week, it\'s probably automatable. We map your most expensive manual processes — reporting, data entry, billing, follow-up — and build the automation layer that eliminates them. Then we go further: integrating an AI reasoning layer that makes your workflows smarter over time, not just faster.',
+              tags: ['Workflow Automation', 'AI-Powered Logic', 'Scheduled Jobs', 'Process Optimization'],
+              link: '/services/intelligent-automation'
             },
             {
-              num: '03', icon: '🏗', name: 'Full Stack Applications',
-              desc: 'Have an idea but no way to build it? I take your vision from concept to a fully functioning product — front to back. Clean code, scalable architecture, and a launch you can be proud of. Built by one senior engineer who owns it start to finish.',
+              num: '03', icon: '🏗', name: 'Custom Applications & Internal Tools',
+              desc: 'Sometimes the tool you need doesn\'t exist yet — and sometimes the data you already have is sitting unused because nobody can query it. We build custom applications that solve both problems: tools that fit the way your business actually works, and dashboards that operationalize your data so decisions get made on facts, not gut feel. We\'ve built a HIPAA-compliant analytics dashboard with an AI advisor that answers plain-language questions about live business data, a real-time social publishing engine, and a custom ad trafficking platform — all from scratch, because nothing in the market solved the problem.',
               tags: ['React / Next.js', 'Node.js', 'PostgreSQL', 'Cloud Deployment']
             }
           ].map(s => (
-            <div className="service-item" key={s.num}>
-              <div className="service-num">{s.num}</div>
-              <div className="service-icon">{s.icon}</div>
-              <div className="service-name">{s.name}</div>
-              <p className="service-desc">{s.desc}</p>
-              <div className="service-tags">
-                {s.tags.map(t => <span className="service-tag" key={t}>{t}</span>)}
-              </div>
-              {s.link && (
-                <Link to={s.link} style={{ display: 'inline-block', marginTop: '1.25rem', fontSize: '0.8rem', color: 'var(--accent-light)', textDecoration: 'none', letterSpacing: '0.04em' }}>
-                  Learn more →
+            s.link
+              ? <Link to={s.link} className="service-item service-item--link" key={s.num}>
+                  <div className="service-num">{s.num}</div>
+                  <div className="service-icon">{s.icon}</div>
+                  <div className="service-name">{s.name}</div>
+                  <p className="service-desc">{s.desc}</p>
+                  <div className="service-tags">
+                    {s.tags.map(t => <span className="service-tag" key={t}>{t}</span>)}
+                  </div>
+                  <span className="service-learn-more">Learn more →</span>
                 </Link>
-              )}
-            </div>
+              : <div className="service-item" key={s.num}>
+                  <div className="service-num">{s.num}</div>
+                  <div className="service-icon">{s.icon}</div>
+                  <div className="service-name">{s.name}</div>
+                  <p className="service-desc">{s.desc}</p>
+                  <div className="service-tags">
+                    {s.tags.map(t => <span className="service-tag" key={t}>{t}</span>)}
+                  </div>
+                </div>
           ))}
         </div>
       </section>
@@ -138,10 +145,56 @@ export default function App() {
               </div>
             </div>
           </Link>
-          <div className="portfolio-placeholder">
-            <div className="portfolio-placeholder-icon">＋</div>
-            <p>Your next project here</p>
+          <div className="portfolio-item">
+            <div className="portfolio-thumb portfolio-thumb-2">
+              🎙️
+              <span className="portfolio-thumb-label">Erika AI</span>
+            </div>
+            <div className="portfolio-body">
+              <div className="portfolio-type">AI VOICE AGENT · HEALTHCARE AUTOMATION</div>
+              <div className="portfolio-title">Erika — AI Front Desk Agent</div>
+              <p className="portfolio-desc">Built a custom AI voice agent for a physical therapy practice that handles inbound and outbound patient calls 24/7 — fully compliant with California AB 2905 AI disclosure requirements. No missed calls, no added headcount.</p>
+              <div className="portfolio-stack">
+                {['GoHighLevel', 'ElevenLabs', 'Cartesia TTS', 'Voice AI', 'AB 2905 Compliance'].map(t => (
+                  <span className="stack-tag" key={t}>{t}</span>
+                ))}
+              </div>
+            </div>
           </div>
+          <div className="portfolio-item">
+            <div className="portfolio-thumb portfolio-thumb-3">
+              📊
+              <span className="portfolio-thumb-label">Patient Analytics</span>
+            </div>
+            <div className="portfolio-body">
+              <div className="portfolio-type">AI-POWERED ANALYTICS · HIPAA-COMPLIANT</div>
+              <div className="portfolio-title">Patient Analytics Dashboard</div>
+              <p className="portfolio-desc">Designed and built a HIPAA-compliant analytics dashboard for a healthcare practice pulling live data from their practice management system, with a Claude-powered chatbot that answers plain-language questions about their own data and generates performance recommendations.</p>
+              <div className="portfolio-stack">
+                {['React/Vite', 'Node.js', 'PostgreSQL', 'AWS', 'Claude API', 'PTEverywhere API'].map(t => (
+                  <span className="stack-tag" key={t}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <a href="https://kumo-ashen.vercel.app" target="_blank" rel="noopener noreferrer" className="portfolio-link">
+            <div className="portfolio-item">
+              <div className="portfolio-thumb portfolio-thumb-4">
+                🍜
+                <span className="portfolio-thumb-label">Kumo</span>
+              </div>
+              <div className="portfolio-body">
+                <div className="portfolio-type">AI CONSUMER PRODUCT · LIVE</div>
+                <div className="portfolio-title">Kumo — AI Recipe Platform</div>
+                <p className="portfolio-desc">Co-built a consumer recipe app where users provide a recipe via URL, description, or library selection, and Claude generates contextual enhancements specific to that dish — technique upgrades, ingredient elevations, and method variations.</p>
+                <div className="portfolio-stack">
+                  {['React', 'Node.js', 'Claude API'].map(t => (
+                    <span className="stack-tag" key={t}>{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
         <div className="portfolio-see-all">
           <Link to="/projects">See all projects →</Link>
@@ -150,28 +203,17 @@ export default function App() {
 
       {/* ABOUT */}
       <section id="about" className="about-section">
-        <div className="about-image">👨‍💻</div>
+        <div className="about-image">
+          <img src="/images/mike.jpg" alt="Michael Chen" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 50%' }} />
+        </div>
         <div className="about-content">
           <p className="section-label">About</p>
           <div className="divider" />
           <h2 className="section-title">Hi, I'm Michael Chen</h2>
-          <p className="section-sub" style={{ marginBottom: '1rem' }}>I founded MRC Digital Consulting to give businesses access to senior-level engineering talent without the overhead of a large agency. Every project is built by me — no junior handoffs, no middlemen.</p>
-          <p style={{ color: 'var(--mid)', fontSize: '0.95rem', lineHeight: 1.7 }}>I specialize in building full stack applications, automation systems, and API integrations that solve real business problems.</p>
-          <div className="about-skills">
-            {['React', 'Next.js', 'Node.js', 'Python', 'PostgreSQL', 'REST APIs', 'AWS', 'Docker', 'Automation'].map(s => (
-              <span className="about-skill" key={s}>{s}</span>
-            ))}
-          </div>
-          <div className="about-stats">
-            <div className="about-stat">
-              <div className="about-stat-value">100%</div>
-              <div className="about-stat-label">Direct Access</div>
-            </div>
-            <div className="about-stat">
-              <div className="about-stat-value">Fast</div>
-              <div className="about-stat-label">Turnaround</div>
-            </div>
-          </div>
+          <p className="section-sub" style={{ marginBottom: '1rem' }}> I founded MRC Digital Consulting to make technical solutions accessible to businesses of all shapes and sizes. Every project is guided by my expertise, from discovery through delivery.</p>
+          <p style={{ color: 'var(--mid)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1rem' }}>I've spent 15+ years in the media agency industry, leading enterprise platform governance, automation programs, and AI transformation initiatives at scale.</p>
+          <p style={{ color: 'var(--mid)', fontSize: '0.95rem', lineHeight: 1.7 }}>I'm here to help, even if you're not sure what you may need. Sometimes the most valuable thing I do is to site down with a business, understand how it operates, and help figure out where technology can help. Let's connect!</p>
+          <button className="btn-primary" onClick={openModal} style={{ marginTop: '2rem' }}>Let's Connect</button>
         </div>
       </section>
 

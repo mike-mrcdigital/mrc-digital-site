@@ -50,6 +50,7 @@
   animation: fadeUp 0.7s 0.35s both;
 }
 .ces-hero-title em { font-style: italic; color: var(--accent-light); }
+.ces-hero-sub-em { font-size: 0.55em; }
 .ces-hero-sub {
   font-size: 1.1rem;
   color: var(--light);
@@ -462,7 +463,7 @@
 /* ── ADD-ONS ── */
 .ces-addons-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
   margin-top: 3.5rem;
 }
