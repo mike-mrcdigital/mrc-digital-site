@@ -135,7 +135,7 @@ export default function App() {
       {/* PORTFOLIO */}
       <section id="portfolio" className="portfolio-section">
         <p className="section-label">Recent Work</p>
-        <h2 className="section-title">Selected Projects</h2>
+        <h2 className="section-title"> Projects</h2>
         <p className="section-sub">A sample of recent client work. More available on request.</p>
         <div className="portfolio-grid">
           {featuredProjects.map(project => {
