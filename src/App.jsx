@@ -189,7 +189,7 @@ export default function App() {
           <h2 className="section-title">Hi, I'm Michael Chen</h2>
           <p className="section-sub" style={{ marginBottom: '1rem' }}> I founded MRC Digital Consulting to make technical solutions accessible to businesses of all shapes and sizes. Every project is guided by my expertise, from discovery through delivery.</p>
           <p style={{ color: 'var(--mid)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1rem' }}>I've spent 15+ years in the media agency industry, leading enterprise platform governance, automation programs, and AI transformation initiatives at scale.</p>
-          <p style={{ color: 'var(--mid)', fontSize: '0.95rem', lineHeight: 1.7 }}>I'm here to help, even if you're not sure what you may need. Sometimes the most valuable thing I do is to site down with a business, understand how it operates, and help figure out where technology can help. Let's connect!</p>
+          <p style={{ color: 'var(--mid)', fontSize: '0.95rem', lineHeight: 1.7 }}>I'm here to help, even if you're not sure what you may need. Sometimes the most valuable thing I do is to sit down with a business, understand how it operates, and help figure out where technology can help. Let's connect!</p>
           <button className="btn-primary" onClick={openModal} style={{ marginTop: '2rem' }}>Let's Connect</button>
         </div>
       </section>
