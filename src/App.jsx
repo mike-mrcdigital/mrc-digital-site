@@ -1,12 +1,23 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import { useContactModal } from './context/ContactModalContext'
+import { client, urlFor } from './sanityClient'
 import './styles/home.css'
 import './pages/projects.css'
 
+const FEATURED_QUERY = `*[_type == "project" && featured == true] | order(completedAt desc) {
+  _id, title, slug, type, excerpt, mainImage, stack, externalUrl
+}`
+
 export default function App() {
   const { open: openModal } = useContactModal()
+  const [featuredProjects, setFeaturedProjects] = useState([])
+
+  useEffect(() => {
+    client.fetch(FEATURED_QUERY).then(setFeaturedProjects).catch(() => {})
+  }, [])
 
   return (
     <>
@@ -127,74 +138,40 @@ export default function App() {
         <h2 className="section-title">Selected Projects</h2>
         <p className="section-sub">A sample of recent client work. More available on request.</p>
         <div className="portfolio-grid">
-          <Link to="/projects/windowe-llc" className="portfolio-link">
-            <div className="portfolio-item">
-              <div className="portfolio-thumb portfolio-thumb-1">
-                🏭
-                <span className="portfolio-thumb-label">Windowe LLC</span>
-              </div>
-              <div className="portfolio-body">
-                <div className="portfolio-type">Full Stack Web App · Ideation to Launch</div>
-                <div className="portfolio-title">Windowe LLC</div>
-                <p className="portfolio-desc">Built a full stack platform from the ground up for a logistics startup bringing transparency to warehousing costs and capacity. Took the product from initial concept through design, development, and live launch.</p>
-                <div className="portfolio-stack">
-                  {['React / Next.js', 'Node.js', 'PostgreSQL', 'REST API', 'Docker', 'DigitalOcean'].map(t => (
-                    <span className="stack-tag" key={t}>{t}</span>
-                  ))}
+          {featuredProjects.map(project => {
+            const card = (
+              <div className="portfolio-item">
+                <div className="portfolio-thumb portfolio-thumb-1">
+                  {project.mainImage
+                    ? <img src={urlFor(project.mainImage).width(800).url()} alt={project.mainImage.alt || project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    : <span>🏗</span>
+                  }
+                  <span className="portfolio-thumb-label">{project.title}</span>
+                </div>
+                <div className="portfolio-body">
+                  {project.type && <div className="portfolio-type">{project.type}</div>}
+                  <div className="portfolio-title">{project.title}</div>
+                  {project.excerpt && <p className="portfolio-desc">{project.excerpt}</p>}
+                  {project.stack?.length > 0 && (
+                    <div className="portfolio-stack">
+                      {project.stack.map(t => <span className="stack-tag" key={t}>{t}</span>)}
+                    </div>
+                  )}
                 </div>
               </div>
+            )
+
+            if (project.externalUrl) {
+              return <a href={project.externalUrl} target="_blank" rel="noopener noreferrer" className="portfolio-link" key={project._id}>{card}</a>
+            }
+            return <Link to={`/projects/${project.slug.current}`} className="portfolio-link" key={project._id}>{card}</Link>
+          })}
+          {featuredProjects.length === 0 && (
+            <div className="portfolio-placeholder">
+              <div className="portfolio-placeholder-icon">＋</div>
+              <p>Projects coming soon</p>
             </div>
-          </Link>
-          <div className="portfolio-item">
-            <div className="portfolio-thumb portfolio-thumb-2">
-              🎙️
-              <span className="portfolio-thumb-label">Erika AI</span>
-            </div>
-            <div className="portfolio-body">
-              <div className="portfolio-type">AI VOICE AGENT · HEALTHCARE AUTOMATION</div>
-              <div className="portfolio-title">Erika — AI Front Desk Agent</div>
-              <p className="portfolio-desc">Built a custom AI voice agent for a physical therapy practice that handles inbound and outbound patient calls 24/7 — fully compliant with California AB 2905 AI disclosure requirements. No missed calls, no added headcount.</p>
-              <div className="portfolio-stack">
-                {['GoHighLevel', 'ElevenLabs', 'Cartesia TTS', 'Voice AI', 'AB 2905 Compliance'].map(t => (
-                  <span className="stack-tag" key={t}>{t}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="portfolio-item">
-            <div className="portfolio-thumb portfolio-thumb-3">
-              📊
-              <span className="portfolio-thumb-label">Patient Analytics</span>
-            </div>
-            <div className="portfolio-body">
-              <div className="portfolio-type">AI-POWERED ANALYTICS · HIPAA-COMPLIANT</div>
-              <div className="portfolio-title">Patient Analytics Dashboard</div>
-              <p className="portfolio-desc">Designed and built a HIPAA-compliant analytics dashboard for a healthcare practice pulling live data from their practice management system, with a Claude-powered chatbot that answers plain-language questions about their own data and generates performance recommendations.</p>
-              <div className="portfolio-stack">
-                {['React/Vite', 'Node.js', 'PostgreSQL', 'AWS', 'Claude API', 'PTEverywhere API'].map(t => (
-                  <span className="stack-tag" key={t}>{t}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-          <a href="https://kumo-ashen.vercel.app" target="_blank" rel="noopener noreferrer" className="portfolio-link">
-            <div className="portfolio-item">
-              <div className="portfolio-thumb portfolio-thumb-4">
-                🍜
-                <span className="portfolio-thumb-label">Kumo</span>
-              </div>
-              <div className="portfolio-body">
-                <div className="portfolio-type">AI CONSUMER PRODUCT · LIVE</div>
-                <div className="portfolio-title">Kumo — AI Recipe Platform</div>
-                <p className="portfolio-desc">Co-built a consumer recipe app where users provide a recipe via URL, description, or library selection, and Claude generates contextual enhancements specific to that dish — technique upgrades, ingredient elevations, and method variations.</p>
-                <div className="portfolio-stack">
-                  {['React', 'Node.js', 'Claude API'].map(t => (
-                    <span className="stack-tag" key={t}>{t}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </a>
+          )}
         </div>
         <div className="portfolio-see-all">
           <Link to="/projects">See all projects →</Link>
