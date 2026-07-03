@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
@@ -7,13 +7,22 @@ import { client, urlFor } from './sanityClient'
 import './styles/home.css'
 import './pages/projects.css'
 
-const FEATURED_QUERY = `*[_type == "project" && featured == true] | order(completedAt desc) {
+const FEATURED_QUERY = `*[_type == "project" && featured == true] | order(order asc) {
   _id, title, slug, type, excerpt, mainImage, stack, externalUrl
 }`
 
 export default function App() {
   const { open: openModal } = useContactModal()
   const [featuredProjects, setFeaturedProjects] = useState([])
+  const carouselRef = useRef(null)
+
+  const scrollCarousel = (dir) => {
+    const el = carouselRef.current
+    if (!el) return
+    const card = el.querySelector('.portfolio-link')
+    const amount = card ? card.offsetWidth + 20 : el.offsetWidth / 4
+    el.scrollBy({ left: dir * amount, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     client.fetch(FEATURED_QUERY).then(setFeaturedProjects).catch(() => {})
@@ -64,7 +73,6 @@ export default function App() {
 
       {/* SERVICES */}
       <section id="services" className="services-section">
-        <p className="section-label">What I Do</p>
         <h2 className="section-title">Services</h2>
         <p className="section-sub">Every engagement starts with one question: where is your business losing time and money? The answer tells us what to build.</p>
         <div className="services-grid">
@@ -113,7 +121,6 @@ export default function App() {
 
       {/* PROCESS */}
       <section id="process" className="process-section">
-        <p className="section-label">How It Works</p>
         <h2 className="section-title">A clear process,<br />start to finish</h2>
         <p className="section-sub">No ambiguity. No bloated teams. You work directly with me from discovery to delivery.</p>
         <div className="process-steps">
@@ -134,10 +141,12 @@ export default function App() {
 
       {/* PORTFOLIO */}
       <section id="portfolio" className="portfolio-section">
-        <p className="section-label">Recent Work</p>
-        <h2 className="section-title"> Projects</h2>
-        <p className="section-sub">A sample of recent client work. More available on request.</p>
-        <div className="portfolio-grid">
+        <div className="portfolio-section-hdr">
+          <h2 className="section-title">Projects</h2>
+          <Link to="/projects" className="portfolio-see-all-link">See all projects →</Link>
+        </div>
+        <p className="section-sub">Take a look at what we've built for our clients recently.</p>
+        <div className="portfolio-grid" ref={carouselRef}>
           {featuredProjects.map(project => {
             const card = (
               <div className="portfolio-item">
@@ -173,8 +182,9 @@ export default function App() {
             </div>
           )}
         </div>
-        <div className="portfolio-see-all">
-          <Link to="/projects">See all projects →</Link>
+        <div className="portfolio-nav">
+          <button className="portfolio-nav-btn" onClick={() => scrollCarousel(-1)}>←</button>
+          <button className="portfolio-nav-btn" onClick={() => scrollCarousel(1)}>→</button>
         </div>
       </section>
 

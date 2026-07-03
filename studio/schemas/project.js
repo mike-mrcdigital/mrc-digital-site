@@ -76,6 +76,12 @@ export default {
       description: 'Show in the Selected Projects section on the homepage'
     },
     {
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Lower numbers appear first on the homepage (e.g. 1, 2, 3)'
+    },
+    {
       name: 'completedAt',
       title: 'Completion Date',
       type: 'date'
