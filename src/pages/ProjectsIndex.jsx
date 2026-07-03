@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { client, urlFor } from '../sanityClient'
 import Nav from '../components/Nav'
@@ -12,6 +12,8 @@ const PROJECTS_QUERY = `*[_type == "project"] | order(completedAt desc) {
 export default function ProjectsIndex() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [activeType, setActiveType] = useState('All')
 
   useEffect(() => {
     client.fetch(PROJECTS_QUERY)
@@ -19,24 +21,75 @@ export default function ProjectsIndex() {
       .catch(() => setLoading(false))
   }, [])
 
+  const types = useMemo(() => (
+    ['All', ...new Set(projects.map(p => p.type).filter(Boolean))]
+  ), [projects])
+
+  const filtered = useMemo(() => (
+    projects.filter(p => {
+      const q = search.toLowerCase()
+      const matchesSearch = !q ||
+        p.title?.toLowerCase().includes(q) ||
+        p.excerpt?.toLowerCase().includes(q) ||
+        p.stack?.some(t => t.toLowerCase().includes(q))
+      const matchesType = activeType === 'All' || p.type === activeType
+      return matchesSearch && matchesType
+    })
+  ), [projects, search, activeType])
+
   return (
     <>
       <Nav />
       <div className="projects-hero">
-        <p className="section-label">Work</p>
         <h1 className="projects-hero-title">All Projects</h1>
         <p className="projects-hero-sub">A full look at client work — from full stack applications to automation systems and API integrations.</p>
       </div>
 
       <section className="projects-section">
+        <div className="projects-controls">
+          <div className="projects-search-wrap">
+            <span className="projects-search-icon">🔍</span>
+            <input
+              className="projects-search"
+              type="text"
+              placeholder="Search projects..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            {search && (
+              <button className="projects-search-clear" onClick={() => setSearch('')}>×</button>
+            )}
+          </div>
+          {types.length > 1 && (
+            <div className="projects-filters">
+              {types.map(type => (
+                <button
+                  key={type}
+                  className={`projects-filter-btn${activeType === type ? ' projects-filter-btn--active' : ''}`}
+                  onClick={() => setActiveType(type)}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
         {loading && <p className="projects-loading">Loading projects...</p>}
-        {!loading && projects.length === 0 && (
+
+        {!loading && filtered.length === 0 && (
           <div className="projects-empty">
-            <p>No projects yet — check back soon.</p>
+            <p>{projects.length === 0 ? 'No projects yet — check back soon.' : 'No projects match your search.'}</p>
+            {projects.length > 0 && (
+              <button className="projects-reset" onClick={() => { setSearch(''); setActiveType('All') }}>
+                Clear filters
+              </button>
+            )}
           </div>
         )}
+
         <div className="projects-grid">
-          {projects.map(project => (
+          {filtered.map(project => (
             <Link to={`/projects/${project.slug.current}`} key={project._id} className="project-card">
               <div className="project-card-thumb">
                 {project.mainImage
