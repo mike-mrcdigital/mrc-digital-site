@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 import './projects.css'
 
 const PROJECTS_QUERY = `*[_type == "project"] | order(completedAt desc) {
-  _id, title, slug, excerpt, type, stack, mainImage, completedAt
+  _id, title, slug, excerpt, type, tags, stack, mainImage, completedAt
 }`
 
 export default function ProjectsIndex() {
@@ -21,8 +21,8 @@ export default function ProjectsIndex() {
       .catch(() => setLoading(false))
   }, [])
 
-  const types = useMemo(() => (
-    ['All', ...new Set(projects.map(p => p.type).filter(Boolean))]
+  const allTags = useMemo(() => (
+    ['All', ...new Set(projects.flatMap(p => p.tags || []).filter(Boolean).sort())]
   ), [projects])
 
   const filtered = useMemo(() => (
@@ -32,8 +32,8 @@ export default function ProjectsIndex() {
         p.title?.toLowerCase().includes(q) ||
         p.excerpt?.toLowerCase().includes(q) ||
         p.stack?.some(t => t.toLowerCase().includes(q))
-      const matchesType = activeType === 'All' || p.type === activeType
-      return matchesSearch && matchesType
+      const matchesTag = activeType === 'All' || p.tags?.includes(activeType)
+      return matchesSearch && matchesTag
     })
   ), [projects, search, activeType])
 
@@ -60,15 +60,15 @@ export default function ProjectsIndex() {
               <button className="projects-search-clear" onClick={() => setSearch('')}>×</button>
             )}
           </div>
-          {types.length > 1 && (
+          {allTags.length > 1 && (
             <div className="projects-filters">
-              {types.map(type => (
+              {allTags.map(tag => (
                 <button
-                  key={type}
-                  className={`projects-filter-btn${activeType === type ? ' projects-filter-btn--active' : ''}`}
-                  onClick={() => setActiveType(type)}
+                  key={tag}
+                  className={`projects-filter-btn${activeType === tag ? ' projects-filter-btn--active' : ''}`}
+                  onClick={() => setActiveType(tag)}
                 >
-                  {type}
+                  {tag}
                 </button>
               ))}
             </div>

@@ -76,6 +76,14 @@ export default {
       description: 'Show in the Selected Projects section on the homepage'
     },
     {
+      name: 'tags',
+      title: 'Filter Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' },
+      description: 'Used for filtering on the projects page (e.g. AI, Healthcare, Automation, Full Stack)'
+    },
+    {
       name: 'order',
       title: 'Display Order',
       type: 'number',
