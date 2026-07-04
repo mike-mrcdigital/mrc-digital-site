@@ -37,9 +37,9 @@ export default function App() {
         <div className="hero-text">
           <p className="hero-eyebrow">MRC Digital Consulting</p>
           <h1 className="hero-title">
-            Your business shouldn't run on<br />spreadsheets and <em>missed calls.</em>
+            MRC Digital —<br />Your Digital <em>Operations Agency</em>
           </h1>
-          <p className="hero-sub">We identify where your business leaks time and money, then build the systems that fix it — from AI voice agents to live analytics dashboards, built to production standard.</p>
+          <p className="hero-sub">Most businesses lose time and money to disconnected systems and manual processes. We fix that by building the automation, AI, and custom tools that ties it all together.</p>
           <div className="hero-actions">
             <button className="btn-primary" onClick={openModal}>Let's Connect</button>
             <a href="#portfolio" className="btn-ghost">See the Work</a>
