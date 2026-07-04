@@ -37,9 +37,9 @@ export default function App() {
         <div className="hero-text">
           <p className="hero-eyebrow">MRC Digital Consulting</p>
           <h1 className="hero-title">
-            MRC Digital —<br />Your Digital <em>Operations Agency</em>
+            Your Digital <em>Operations Agency</em>
           </h1>
-          <p className="hero-sub">Most businesses lose time and money to disconnected systems and manual processes. We fix that by building the automation, AI, and custom tools that ties it all together.</p>
+          <p className="hero-sub">Most businesses lose time and money to disconnected systems and manual processes. We fix that by building the automations, AI tools, and custom applications that tie it all together.</p>
           <div className="hero-actions">
             <button className="btn-primary" onClick={openModal}>Let's Connect</button>
             <a href="#portfolio" className="btn-ghost">See the Work</a>
