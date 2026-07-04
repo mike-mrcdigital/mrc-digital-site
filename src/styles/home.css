@@ -241,7 +241,7 @@
 /* ABOUT */
 .about-section { padding: 7rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
 .about-image {
-  background: var(--warm); border-radius: 4px; width: 500px; height: 500px;
+  background: var(--warm); border-radius: 4px; width: 100%; max-width: 500px; aspect-ratio: 1 / 1;
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
 }
@@ -298,6 +298,7 @@
   .portfolio-link { flex: 0 0 80vw; }
   .portfolio-nav-btn { display: flex; }
   .about-section { grid-template-columns: 1fr; gap: 3rem; }
+  .about-image { max-width: 100%; }
   .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
   .form-row { grid-template-columns: 1fr; }
 }
