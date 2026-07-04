@@ -51,7 +51,7 @@ export default function Nav() {
           </ul>
         </li>
         <li><a href="/#process" onClick={close}>Process</a></li>
-        <li><a href="/#portfolio" onClick={close}>Work</a></li>
+        <li><Link to="/projects" onClick={close}>Work</Link></li>
         <li><Link to="/blog" onClick={close}>Blog</Link></li>
         <li><a href="/#about" onClick={close}>About</a></li>
         <li><button className="nav-cta" onClick={() => { close(); openModal() }}>Let's Connect</button></li>
