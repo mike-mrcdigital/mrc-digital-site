@@ -50,7 +50,6 @@ export default function Nav() {
             </div>
           </ul>
         </li>
-        <li><a href="/#process" onClick={close}>Process</a></li>
         <li><Link to="/projects" onClick={close}>Work</Link></li>
         <li><Link to="/blog" onClick={close}>Blog</Link></li>
         <li><a href="/#about" onClick={close}>About</a></li>

@@ -41,7 +41,7 @@ export default function ProjectsIndex() {
     <>
       <Nav />
       <div className="projects-hero">
-        <h1 className="projects-hero-title">All Projects</h1>
+        <h1 className="projects-hero-title">Projects</h1>
         <p className="projects-hero-sub">A full look at client work — from full stack applications to automation systems and API integrations.</p>
       </div>
 
